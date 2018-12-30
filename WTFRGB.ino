@@ -19,14 +19,14 @@ void setup() {
     leds[i] = CRGB(0, 0, 0);
   }
   FastLED.addLeds<WS2812, LED_PIN, GRB>(realLeds, NUM_LEDS);
-  loadEEPROM();
+  loadEEPROM(false);
 }
 
-void loadEEPROM() {
+void loadEEPROM(bool forceReset) {
   for (auto& effect : effects) {
     effect->reset();
   }
-  if (EEPROM.read(EEPROM_VERSION_COUNTER) != EEPROM_VERSION) {
+  if (forceReset || EEPROM.read(EEPROM_VERSION_COUNTER) != EEPROM_VERSION) {
     writeAllToEEPROM();
     return;
   }
