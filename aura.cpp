@@ -4,7 +4,13 @@
 // TODO: Implement arbitrary color selection
 int auraCounter = 0;
 int auraWidth = NUM_LEDS / 3;
-int auraDecrement = MAX_BRIGHTNESS / auraWidth;
+int auraDecrement;
+
+void AuraEffect::reset() {
+  auraCounter = 0;
+  auraWidth = NUM_LEDS / 3;
+  auraDecrement = MAX_BRIGHTNESS / auraWidth;
+}
 
 void AuraEffect::onUpdate() {
   auraCounter = (auraCounter + 1) % (auraWidth * 3);  // 3 = R G B

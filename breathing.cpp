@@ -9,12 +9,19 @@
   } else if (x > 255) {  \
     x = 255;             \
   }
-CRGB breathingColor = CRGB(MAX_BRIGHTNESS, MAX_BRIGHTNESS, MAX_BRIGHTNESS);
-CRGB breathingIncrement = CRGB(breathingColor.r / HALF_BREATHING_CYCLE,
-                               breathingColor.g / HALF_BREATHING_CYCLE,
-                               breathingColor.b / HALF_BREATHING_CYCLE);
-int sign = -1;
-int breathingCounter = 0;
+CRGB breathingColor;
+CRGB breathingIncrement;
+int sign;
+int breathingCounter;
+
+void BreathingEffect::reset() {
+  breathingColor = CRGB(MAX_BRIGHTNESS, MAX_BRIGHTNESS, MAX_BRIGHTNESS);
+  breathingIncrement = CRGB(breathingColor.r / HALF_BREATHING_CYCLE,
+                            breathingColor.g / HALF_BREATHING_CYCLE,
+                            breathingColor.b / HALF_BREATHING_CYCLE);
+  sign = -1;
+  breathingCounter = 0;
+}
 
 void BreathingEffect::onUpdate() {
   if (breathingCounter == HALF_BREATHING_CYCLE) {

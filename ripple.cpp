@@ -2,11 +2,18 @@
 
 // ==== The Ripple Effect ====
 // TODO: Implement arbitrary color selection
-int rippleCounter = 0;
+int rippleCounter;
 #define RIPPLE_CENTERS 2
 int rippleCenter[RIPPLE_CENTERS] = {NUM_LEDS / 4, NUM_LEDS / 4 * 3};
-int rippleWidth = NUM_LEDS / 3;
-int rippleDecrement = MAX_BRIGHTNESS / rippleWidth;
+int rippleWidth;
+int rippleDecrement;
+
+void RippleEffect::reset() {
+  rippleCounter = 0;
+  //rippleCenter = {NUM_LEDS / 4, NUM_LEDS / 4 * 3}; // TODO: Make this dynamic
+  rippleWidth = NUM_LEDS / 3;
+  rippleDecrement = MAX_BRIGHTNESS / rippleWidth;
+}
 
 void RippleEffect::onUpdate() {
   rippleCounter = (rippleCounter + 1) % (rippleWidth * 3);  // 3 = R G B
