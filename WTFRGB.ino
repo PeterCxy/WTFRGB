@@ -1,7 +1,7 @@
+#include "main.h"
+#include "effect.h"
 #include "aura.h"
 #include "breathing.h"
-#include "effect.h"
-#include "main.h"
 #include "ripple.h"
 
 byte brightness = 100;
