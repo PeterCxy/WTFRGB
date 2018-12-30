@@ -8,6 +8,7 @@ byte brightness = 100;
 CRGB leds[NUM_LEDS];
 CRGB realLeds[NUM_LEDS];
 
+#define EFFECTS_NUM 3
 Effect* effects[] = {new BreathingEffect(), new AuraEffect(),
                      new RippleEffect()};
 int curEffect = 2;
@@ -47,7 +48,8 @@ void writeAllToEEPROM() {
 
 void loop() {
   processCommand();
-  effects[curEffect]->onUpdate();
+  if (curEffect < EFFECTS_NUM)
+    effects[curEffect]->onUpdate();
 
   // Apply brightness transformation to the led array
   for (int i = 0; i < NUM_LEDS; i++) {
