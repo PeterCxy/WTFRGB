@@ -7,7 +7,7 @@ int auraWidth = NUM_LEDS / 3;
 int auraDecrement = MAX_BRIGHTNESS / auraWidth;
 
 void AuraEffect::onUpdate() {
-  auraCounter = (auraCounter + 1) % (auraWidth * 3); // 3 = R G B
+  auraCounter = (auraCounter + 1) % (auraWidth * 3);  // 3 = R G B
   int cycleProgress = auraDecrement * (auraCounter % auraWidth);
 
   // Shift all LEDs left by 1 px

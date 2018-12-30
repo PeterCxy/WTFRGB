@@ -1,7 +1,7 @@
-#include "main.h"
-#include "effect.h"
-#include "breathing.h"
 #include "aura.h"
+#include "breathing.h"
+#include "effect.h"
+#include "main.h"
 #include "ripple.h"
 
 CRGB leds[NUM_LEDS];
@@ -14,7 +14,8 @@ void setup() {
   FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
 }
 
-Effect* effects[] = {new BreathingEffect(), new AuraEffect(), new RippleEffect()};
+Effect* effects[] = {new BreathingEffect(), new AuraEffect(),
+                     new RippleEffect()};
 int curEffect = 2;
 
 void loop() {

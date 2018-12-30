@@ -1,11 +1,11 @@
 #ifndef BREATHING_H
 #define BREATHING_H
-#include "main.h"
 #include "effect.h"
+#include "main.h"
 
 class BreathingEffect : public Effect {
-  public:
-    void onUpdate();
+ public:
+  void onUpdate();
 };
 
 #endif
