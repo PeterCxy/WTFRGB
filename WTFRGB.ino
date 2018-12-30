@@ -4,8 +4,9 @@
 #include "effect.h"
 #include "ripple.h"
 
-byte MAX_BRIGHTNESS = 255;
+byte brightness = 100;
 CRGB leds[NUM_LEDS];
+CRGB realLeds[NUM_LEDS];
 
 Effect* effects[] = {new BreathingEffect(), new AuraEffect(),
                      new RippleEffect()};
@@ -16,7 +17,7 @@ void setup() {
   for (int i = 0; i < NUM_LEDS; i++) {
     leds[i] = CRGB(0, 0, 0);
   }
-  FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812, LED_PIN, GRB>(realLeds, NUM_LEDS);
   loadEEPROM();
 }
 
@@ -29,6 +30,7 @@ void loadEEPROM() {
     return;
   }
   curEffect = (int) EEPROM.read(EEPROM_MODE);
+  brightness = EEPROM.read(EEPROM_BRIGHTNESS);
   for (auto& effect : effects) {
     effect->loadFromEEPROM();
   }
@@ -37,6 +39,7 @@ void loadEEPROM() {
 void writeAllToEEPROM() {
   EEPROM.put(EEPROM_VERSION_COUNTER, EEPROM_VERSION);
   EEPROM.put(EEPROM_MODE, (byte) curEffect);
+  EEPROM.put(EEPROM_BRIGHTNESS, brightness);
   for (auto& effect : effects) {
     effect->writeToEEPROM();
   }
@@ -45,6 +48,11 @@ void writeAllToEEPROM() {
 void loop() {
   processCommand();
   effects[curEffect]->onUpdate();
+
+  // Apply brightness transformation to the led array
+  for (int i = 0; i < NUM_LEDS; i++) {
+    realLeds[i] = CRGB(leds[i].r * brightness / 255, leds[i].g * brightness / 255, leds[i].b * brightness / 255);
+  }
   FastLED.show();
   delay(CYCLE);
 }
@@ -59,6 +67,9 @@ void processCommand() {
       if (strncmp("MODE ", cmdBuf, 5) == 0) {
         curEffect = atoi(&cmdBuf[5]);
         EEPROM.put(EEPROM_MODE, (byte) curEffect);
+      } else if (strncmp("BRIGHT ", cmdBuf, 7) == 0) {
+        brightness = atoi(&cmdBuf[7]);
+        EEPROM.put(EEPROM_BRIGHTNESS, brightness);
       }
     }
   }
