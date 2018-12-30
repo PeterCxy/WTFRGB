@@ -8,7 +8,9 @@ ser.baudrate = 9600
 ser.setDTR(False)
 ser.open()
 time.sleep(2)
-ser.write(" ".join(sys.argv[2:]).encode("ascii") + b"\n")
-print(ser.readline())
-print(ser.readline())
+while True:
+  line = sys.stdin.readline().upper()
+  if line == "EXIT\n":
+    break
+  ser.write(line.encode("ascii"))
 ser.close()
