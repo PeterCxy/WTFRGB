@@ -1,7 +1,7 @@
-#include "main.h"
 #include "aura.h"
 #include "breathing.h"
 #include "effect.h"
+#include "main.h"
 #include "ripple.h"
 
 byte brightness = 100;
@@ -30,7 +30,7 @@ void loadEEPROM(bool forceReset) {
     writeAllToEEPROM();
     return;
   }
-  curEffect = (int) EEPROM.read(EEPROM_MODE);
+  curEffect = (int)EEPROM.read(EEPROM_MODE);
   brightness = EEPROM.read(EEPROM_BRIGHTNESS);
   for (auto& effect : effects) {
     effect->loadFromEEPROM();
@@ -39,7 +39,7 @@ void loadEEPROM(bool forceReset) {
 
 void writeAllToEEPROM() {
   EEPROM.put(EEPROM_VERSION_COUNTER, EEPROM_VERSION);
-  EEPROM.put(EEPROM_MODE, (byte) curEffect);
+  EEPROM.put(EEPROM_MODE, (byte)curEffect);
   EEPROM.put(EEPROM_BRIGHTNESS, brightness);
   for (auto& effect : effects) {
     effect->writeToEEPROM();
@@ -48,12 +48,13 @@ void writeAllToEEPROM() {
 
 void loop() {
   processCommand();
-  if (curEffect < EFFECTS_NUM)
-    effects[curEffect]->onUpdate();
+  if (curEffect < EFFECTS_NUM) effects[curEffect]->onUpdate();
 
   // Apply brightness transformation to the led array
   for (int i = 0; i < NUM_LEDS; i++) {
-    realLeds[i] = CRGB(leds[i].r * brightness / 255, leds[i].g * brightness / 255, leds[i].b * brightness / 255);
+    realLeds[i] =
+        CRGB(leds[i].r * brightness / 255, leds[i].g * brightness / 255,
+             leds[i].b * brightness / 255);
   }
   FastLED.show();
   delay(CYCLE);
@@ -68,7 +69,7 @@ void processCommand() {
       // A command might be available to execute
       if (strncmp("MODE ", cmdBuf, 5) == 0) {
         curEffect = atoi(&cmdBuf[5]);
-        EEPROM.put(EEPROM_MODE, (byte) curEffect);
+        EEPROM.put(EEPROM_MODE, (byte)curEffect);
       } else if (strncmp("BRIGHT ", cmdBuf, 7) == 0) {
         brightness = atoi(&cmdBuf[7]);
         EEPROM.put(EEPROM_BRIGHTNESS, brightness);
