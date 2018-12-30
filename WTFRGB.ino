@@ -70,11 +70,12 @@ void processCommand() {
     int len = Serial.readBytesUntil('\n', cmdBuf, 50);
     if (len > 0) {
       // A command might be available to execute
+      cmdBuf[len] = '\0';
       if (strncmp("MODE ", cmdBuf, 5) == 0) {
         curEffect = atoi(&cmdBuf[5]) % EFFECTS_NUM;
         EEPROM.put(EEPROM_MODE, (byte)curEffect);
       } else if (strncmp("BRIGHT ", cmdBuf, 7) == 0) {
-        brightness = atoi(&cmdBuf[7]) % 256;
+        brightness = atoi(&cmdBuf[7]);
         EEPROM.put(EEPROM_BRIGHTNESS, brightness);
       }
     }
