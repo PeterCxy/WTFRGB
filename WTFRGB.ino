@@ -17,8 +17,10 @@ void setup() {
   Serial.begin(9600);
   for (int i = 0; i < NUM_LEDS; i++) {
     leds[i] = CRGB(0, 0, 0);
+    realLeds[i] = CRGB(0, 0, 0);
   }
-  FastLED.addLeds<WS2812, LED_PIN, GRB>(realLeds, NUM_LEDS);
+
+  pinMode(LED_PIN, OUTPUT);
   loadEEPROM(false);
 }
 
@@ -56,7 +58,8 @@ void loop() {
         CRGB(leds[i].r * brightness / 255, leds[i].g * brightness / 255,
              leds[i].b * brightness / 255);
   }
-  FastLED.show();
+
+  postLedUpdate(realLeds, NUM_LEDS, LED_PIN);
   delay(CYCLE);
 }
 
@@ -68,10 +71,10 @@ void processCommand() {
     if (len > 0) {
       // A command might be available to execute
       if (strncmp("MODE ", cmdBuf, 5) == 0) {
-        curEffect = atoi(&cmdBuf[5]);
+        curEffect = atoi(&cmdBuf[5]) % EFFECTS_NUM;
         EEPROM.put(EEPROM_MODE, (byte)curEffect);
       } else if (strncmp("BRIGHT ", cmdBuf, 7) == 0) {
-        brightness = atoi(&cmdBuf[7]);
+        brightness = atoi(&cmdBuf[7]) % 256;
         EEPROM.put(EEPROM_BRIGHTNESS, brightness);
       }
     }

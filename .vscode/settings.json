@@ -1,7 +1,11 @@
 {
   "editor.tabSize": 2,
+  "[cpp]": {
+    "editor.tabSize": 2
+  },
   "C_Cpp.clang_format_fallbackStyle": "Google",
   "files.associations": {
-    "optional": "cpp"
+    "optional": "cpp",
+    "cstddef": "cpp"
   }
 }
