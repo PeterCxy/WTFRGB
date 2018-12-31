@@ -40,9 +40,9 @@ void loadEEPROM(bool forceReset) {
 }
 
 void writeAllToEEPROM() {
-  EEPROM.put(EEPROM_VERSION_COUNTER, EEPROM_VERSION);
-  EEPROM.put(EEPROM_MODE, (byte)curEffect);
-  EEPROM.put(EEPROM_BRIGHTNESS, brightness);
+  EEPROM.update(EEPROM_VERSION_COUNTER, EEPROM_VERSION);
+  EEPROM.update(EEPROM_MODE, (byte)curEffect);
+  EEPROM.update(EEPROM_BRIGHTNESS, brightness);
   for (auto& effect : effects) {
     effect->writeToEEPROM();
   }
@@ -71,12 +71,12 @@ void processCommand() {
     if (len > 0) {
       // A command might be available to execute
       cmdBuf[len] = '\0';
-      if (strncmp("MODE ", cmdBuf, 5) == 0) {
+      if (strncmp("SAVE", cmdBuf, 4) == 0) {
+        writeAllToEEPROM();
+      } else if (strncmp("MODE ", cmdBuf, 5) == 0) {
         curEffect = atoi(&cmdBuf[5]) % EFFECTS_NUM;
-        EEPROM.put(EEPROM_MODE, (byte)curEffect);
       } else if (strncmp("BRIGHT ", cmdBuf, 7) == 0) {
         brightness = atoi(&cmdBuf[7]);
-        EEPROM.put(EEPROM_BRIGHTNESS, brightness);
       }
     }
   }
