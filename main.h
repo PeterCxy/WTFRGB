@@ -1,7 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
 #include "ws2812.h"
-//#include <FastLED.h>
 #include "eeprom.h"
 
 #define MAX_BRIGHTNESS 255
