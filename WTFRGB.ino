@@ -76,6 +76,8 @@ void processCommand() {
     if (len > 0) {
       // A command might be available to execute
       cmdBuf[len] = '\0';
+      // Note: all numerical parameters of the following commands
+      // should be sent in their BINARY form.
       if (strncmp("SAVE", cmdBuf, 4) == 0) {
         // SAVE - save everything to EEPROM
         writeAllToEEPROM();
