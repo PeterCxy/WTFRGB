@@ -5,7 +5,9 @@
 #include "ripple.h"
 
 byte brightness = 100;
-byte cycle = 50; // Delay between frames, a.k.a. speed, in ms
+// Delay between frames, a.k.a. fps,
+// in ms (normally don't use this for speed control, it may cause the animation to look sticky
+byte cycle = 50;
 CRGB leds[NUM_LEDS];
 CRGB realLeds[NUM_LEDS];
 
