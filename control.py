@@ -9,8 +9,8 @@ ser.baudrate = 115200
 ser.open()
 time.sleep(2)
 while True:
-  line = sys.stdin.readline().upper()
-  if line == "EXIT\n":
+  line = sys.stdin.readline().strip().upper()
+  if line == "EXIT":
     break
   arr = line.split(" ")
   bytesToWrite = arr[0].encode("ascii") + b" "
