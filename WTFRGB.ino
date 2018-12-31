@@ -11,7 +11,7 @@ CRGB realLeds[NUM_LEDS];
 #define EFFECTS_NUM 3
 Effect* effects[] = {new BreathingEffect(), new AuraEffect(),
                      new RippleEffect()};
-int curEffect = 2;
+byte curEffect = 2;
 
 void setup() {
   Serial.begin(115200);
@@ -74,9 +74,9 @@ void processCommand() {
       if (strncmp("SAVE", cmdBuf, 4) == 0) {
         writeAllToEEPROM();
       } else if (strncmp("MODE ", cmdBuf, 5) == 0) {
-        curEffect = atoi(&cmdBuf[5]) % EFFECTS_NUM;
+        curEffect = cmdBuf[5] % EFFECTS_NUM;
       } else if (strncmp("BRIGHT ", cmdBuf, 7) == 0) {
-        brightness = atoi(&cmdBuf[7]);
+        brightness = cmdBuf[7];
       }
     }
   }
