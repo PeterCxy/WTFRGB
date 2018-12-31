@@ -10,6 +10,8 @@ class Effect {
   // Load all values from EEPROM
   virtual void loadFromEEPROM(){};
   virtual void writeToEEPROM(){};
+  // Serial command events
+  virtual void handleCommand(char *cmdBuf, int len) {};
 };
 
 #endif

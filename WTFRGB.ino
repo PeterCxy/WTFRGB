@@ -90,6 +90,11 @@ void processCommand() {
       } else if (strncmp("CYCLE ", cmdBuf, 6) == 0) {
         // CYCLE <cycle_period> - set cycle to cycle_period. This only affects FPS.
         cycle = cmdBuf[6];
+      } else {
+        // Delegate command to the current effect
+        if (curEffect < EFFECTS_NUM) {
+          effects[curEffect]->handleCommand(cmdBuf, len);
+        }
       }
     }
   }

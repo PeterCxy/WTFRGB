@@ -1,3 +1,4 @@
+#include <string.h>
 #include "breathing.h"
 
 // ==== The Breathing Effect ====
@@ -9,18 +10,32 @@
   } else if (x > 255) {  \
     x = 255;             \
   }
+CRGB startColor;
 CRGB breathingColor;
 CRGB breathingIncrement;
 int sign;
 int breathingCounter;
 
 void BreathingEffect::reset() {
-  breathingColor = CRGB(MAX_BRIGHTNESS, MAX_BRIGHTNESS, MAX_BRIGHTNESS);
-  breathingIncrement = CRGB(breathingColor.r / HALF_BREATHING_CYCLE,
-                            breathingColor.g / HALF_BREATHING_CYCLE,
-                            breathingColor.b / HALF_BREATHING_CYCLE);
+  startColor = CRGB(MAX_BRIGHTNESS, MAX_BRIGHTNESS, MAX_BRIGHTNESS);
+  this->_reset();
+}
+
+void BreathingEffect::_reset() {
+  breathingColor = startColor;
+  breathingIncrement = CRGB(startColor.r / HALF_BREATHING_CYCLE,
+                            startColor.g / HALF_BREATHING_CYCLE,
+                            startColor.b / HALF_BREATHING_CYCLE);
   sign = -1;
   breathingCounter = 0;
+}
+
+void BreathingEffect::handleCommand(char *cmdBuf, int len) {
+  if (len >= 9 && strncmp("COLOR ", cmdBuf, 6) == 0) {
+    // COLOR <r> <g> <b> - Change breathing color
+    startColor = CRGB(cmdBuf[6], cmdBuf[7], cmdBuf[8]);
+    this->_reset();
+  }
 }
 
 void BreathingEffect::onUpdate() {
