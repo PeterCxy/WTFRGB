@@ -33,7 +33,7 @@ void loadEEPROM(bool forceReset) {
     writeAllToEEPROM();
     return;
   }
-  curEffect = (int)EEPROM.read(EEPROM_MODE);
+  curEffect = EEPROM.read(EEPROM_MODE);
   brightness = EEPROM.read(EEPROM_BRIGHTNESS);
   cycle = EEPROM.read(EEPROM_CYCLE);
   for (auto& effect : effects) {
@@ -43,7 +43,7 @@ void loadEEPROM(bool forceReset) {
 
 void writeAllToEEPROM() {
   EEPROM.update(EEPROM_VERSION_COUNTER, EEPROM_VERSION);
-  EEPROM.update(EEPROM_MODE, (byte)curEffect);
+  EEPROM.update(EEPROM_MODE, curEffect);
   EEPROM.update(EEPROM_BRIGHTNESS, brightness);
   EEPROM.update(EEPROM_CYCLE, cycle);
   for (auto& effect : effects) {
