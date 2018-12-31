@@ -77,12 +77,16 @@ void processCommand() {
       // A command might be available to execute
       cmdBuf[len] = '\0';
       if (strncmp("SAVE", cmdBuf, 4) == 0) {
+        // SAVE - save everything to EEPROM
         writeAllToEEPROM();
       } else if (strncmp("MODE ", cmdBuf, 5) == 0) {
+        // MODE <mode_id> - switch pattern to mode_id
         curEffect = cmdBuf[5] % EFFECTS_NUM;
       } else if (strncmp("BRIGHT ", cmdBuf, 7) == 0) {
+        // BRIGHT <brightness> - change brightness value
         brightness = cmdBuf[7];
       } else if (strncmp("CYCLE ", cmdBuf, 6) == 0) {
+        // CYCLE <cycle_period> - set cycle to cycle_period. This only affects FPS.
         cycle = cmdBuf[6];
       }
     }
