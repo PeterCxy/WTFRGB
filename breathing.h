@@ -10,6 +10,8 @@ class BreathingEffect : public Effect {
   void reset();
   void onUpdate();
   void handleCommand(char *cmdBuf, int len);
+  void writeToEEPROM();
+  void loadFromEEPROM();
 };
 
 #endif

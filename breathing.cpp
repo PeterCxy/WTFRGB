@@ -1,5 +1,6 @@
 #include <string.h>
 #include "breathing.h"
+#include "eeprom.h"
 
 // ==== The Breathing Effect ====
 #define BREATHING_CYCLE 30
@@ -36,6 +37,20 @@ void BreathingEffect::handleCommand(char *cmdBuf, int len) {
     startColor = CRGB(cmdBuf[6], cmdBuf[7], cmdBuf[8]);
     this->_reset();
   }
+}
+
+void BreathingEffect::writeToEEPROM() {
+  EEPROM.update(EEPROM_BREATHING_COLOR_3BYTE, startColor.r);
+  EEPROM.update(EEPROM_BREATHING_COLOR_3BYTE + 1, startColor.g);
+  EEPROM.update(EEPROM_BREATHING_COLOR_3BYTE + 2, startColor.b);
+}
+
+void BreathingEffect::loadFromEEPROM() {
+  startColor = CRGB(
+    EEPROM.read(EEPROM_BREATHING_COLOR_3BYTE),
+    EEPROM.read(EEPROM_BREATHING_COLOR_3BYTE + 1),
+    EEPROM.read(EEPROM_BREATHING_COLOR_3BYTE + 2));
+  this->_reset();
 }
 
 void BreathingEffect::onUpdate() {
