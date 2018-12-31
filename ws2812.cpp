@@ -19,6 +19,8 @@ void postByte(unsigned char b, unsigned char portMask) {
 
 void postLedUpdate(CRGB *leds, int len, int ledPin) {
   unsigned char portMask = 1 << ledPin;
+  PORTD &= ~portMask;
+  delayMicroseconds(9); // Force an update cycle by sending LOW for >= 9us
   cli();
   for (int i = 0; i < len; i++) {
     postByte(leds[i].g, portMask);

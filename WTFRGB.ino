@@ -63,7 +63,7 @@ void loop() {
   }
 
   postLedUpdate(realLeds, NUM_LEDS, LED_PIN);
-  delay(cycle);
+  delay((int) cycle + 15);
 }
 
 void processCommand() {
