@@ -5,6 +5,7 @@
 #include "ripple.h"
 
 byte brightness = 100;
+byte cycle = 50; // Delay between frames, a.k.a. speed, in ms
 CRGB leds[NUM_LEDS];
 CRGB realLeds[NUM_LEDS];
 
@@ -34,6 +35,7 @@ void loadEEPROM(bool forceReset) {
   }
   curEffect = (int)EEPROM.read(EEPROM_MODE);
   brightness = EEPROM.read(EEPROM_BRIGHTNESS);
+  cycle = EEPROM.read(EEPROM_CYCLE);
   for (auto& effect : effects) {
     effect->loadFromEEPROM();
   }
@@ -43,6 +45,7 @@ void writeAllToEEPROM() {
   EEPROM.update(EEPROM_VERSION_COUNTER, EEPROM_VERSION);
   EEPROM.update(EEPROM_MODE, (byte)curEffect);
   EEPROM.update(EEPROM_BRIGHTNESS, brightness);
+  EEPROM.update(EEPROM_CYCLE, cycle);
   for (auto& effect : effects) {
     effect->writeToEEPROM();
   }
@@ -60,7 +63,7 @@ void loop() {
   }
 
   postLedUpdate(realLeds, NUM_LEDS, LED_PIN);
-  delay(CYCLE);
+  delay(cycle);
 }
 
 void processCommand() {
@@ -77,6 +80,8 @@ void processCommand() {
         curEffect = cmdBuf[5] % EFFECTS_NUM;
       } else if (strncmp("BRIGHT ", cmdBuf, 7) == 0) {
         brightness = cmdBuf[7];
+      } else if (strncmp("CYCLE ", cmdBuf, 6) == 0) {
+        cycle = cmdBuf[6];
       }
     }
   }
