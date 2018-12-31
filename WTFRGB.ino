@@ -14,7 +14,7 @@ Effect* effects[] = {new BreathingEffect(), new AuraEffect(),
 int curEffect = 2;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   for (int i = 0; i < NUM_LEDS; i++) {
     leds[i] = CRGB(0, 0, 0);
     realLeds[i] = CRGB(0, 0, 0);

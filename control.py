@@ -4,7 +4,7 @@ import time
 
 ser = serial.Serial()
 ser.port = sys.argv[1]
-ser.baudrate = 9600
+ser.baudrate = 115200
 ser.open()
 time.sleep(2)
 while True:
