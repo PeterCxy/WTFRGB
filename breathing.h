@@ -6,6 +6,7 @@
 class BreathingEffect : public Effect {
  private:
   void _reset();
+  void stepColor(unsigned int step);
  public:
   void reset();
   void onUpdate();

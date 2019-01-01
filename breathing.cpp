@@ -18,17 +18,26 @@ int sign;
 int breathingCounter;
 
 void BreathingEffect::reset() {
+  sign = -1;
+  breathingCounter = 0;
   startColor = CRGB(MAX_BRIGHTNESS, MAX_BRIGHTNESS, MAX_BRIGHTNESS);
   this->_reset();
 }
 
+// Called when parameter is changed via command line or doing a full reset
+// DO NOT reset the full animation status here (e.g. the counter)
 void BreathingEffect::_reset() {
-  breathingColor = startColor;
   breathingIncrement = CRGB(startColor.r / HALF_BREATHING_CYCLE,
                             startColor.g / HALF_BREATHING_CYCLE,
                             startColor.b / HALF_BREATHING_CYCLE);
-  sign = -1;
-  breathingCounter = 0;
+  // Keep the current progress while resetting to new color
+  if (breathingCounter < HALF_BREATHING_CYCLE) {
+    breathingColor = startColor;
+    this->stepColor(breathingCounter);
+  } else {
+    breathingColor = CRGB(0, 0, 0);
+    this->stepColor(breathingCounter - HALF_BREATHING_CYCLE);
+  }
 }
 
 void BreathingEffect::handleCommand(char *cmdBuf, int len) {
@@ -61,9 +70,13 @@ void BreathingEffect::onUpdate() {
     breathingCounter = 0;
   }
   breathingCounter++;
-  int newR = (int)breathingColor.r + sign * breathingIncrement.r;
-  int newG = (int)breathingColor.g + sign * breathingIncrement.g;
-  int newB = (int)breathingColor.b + sign * breathingIncrement.b;
+  this->stepColor(1);
+}
+
+void BreathingEffect::stepColor(unsigned int step) {
+  int newR = (int)breathingColor.r + step * sign * breathingIncrement.r;
+  int newG = (int)breathingColor.g + step * sign * breathingIncrement.g;
+  int newB = (int)breathingColor.b + step * sign * breathingIncrement.b;
   WRAP_OVERFLOW(newR);
   WRAP_OVERFLOW(newG);
   WRAP_OVERFLOW(newB);
