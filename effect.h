@@ -15,6 +15,8 @@ class Effect {
   // Load all values from EEPROM
   virtual void loadFromEEPROM(){};
   virtual void writeToEEPROM(){};
+  // Called when everything is loaded from EEPROM (i.e. initialization finished)
+  virtual void postInit(){};
   // Serial command events
   virtual void handleCommand(char *cmdBuf, int len) {};
 };

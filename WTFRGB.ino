@@ -63,6 +63,11 @@ void loadEEPROM(bool forceReset) {
   for (auto& effect : effects) {
     effect->loadFromEEPROM();
   }
+
+  // Call post-init hooks when everything has been loaded.
+  for (auto& effect : effects) {
+    effect->postInit();
+  }
 }
 
 void writeAllToEEPROM() {

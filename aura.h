@@ -4,8 +4,11 @@
 #include "effect.h"
 
 class AuraEffect : public Effect {
+ private:
+  void stepColor();
  public:
   void onUpdate();
+  void postInit();
   void reset();
 };
 
