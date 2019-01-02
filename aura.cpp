@@ -4,8 +4,6 @@
 // ==== The Aura Rainbow Effect ====
 int auraCounter = 0;
 int auraWidth;
-unsigned char paletteCounter;
-CRGB curColor, nextColor;
 
 void AuraEffect::reset() {
   auraCounter = 0;

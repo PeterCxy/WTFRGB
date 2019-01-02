@@ -4,6 +4,8 @@
 #include "effect.h"
 
 class AuraEffect : public Effect {
+ unsigned char paletteCounter;
+ CRGB curColor, nextColor;
  private:
   void stepColor();
  public:

@@ -1,4 +1,5 @@
 #include "ripple.h"
+#include "color.h"
 
 // ==== The Ripple Effect ====
 // TODO: Implement arbitrary color selection
@@ -9,13 +10,22 @@ int rippleWidth;
 int rippleDecrement;
 
 void RippleEffect::reset() {
+  paletteCounter = 0;
   rippleCounter = 0;
   rippleWidth = NUM_LEDS / 3;
   rippleDecrement = MAX_BRIGHTNESS / rippleWidth;
 }
 
+void RippleEffect::postInit() {
+  this->stepColor();
+}
+
+void RippleEffect::stepColor() {
+  curColor = *getPaletteColor(paletteCounter);
+  nextColor = *nextPaletteColor(&paletteCounter);
+}
+
 void RippleEffect::onUpdate() {
-  rippleCounter = (rippleCounter + 1) % (rippleWidth * 3);  // 3 = R G B
   int cycleProgress = rippleDecrement * (rippleCounter % rippleWidth);
 
   for (int k = 0; k < RIPPLE_CENTERS; k++) {
@@ -40,15 +50,12 @@ void RippleEffect::onUpdate() {
 
     // Calculate new color for center
     int center = rippleCenter[k] - 1;
-    if (rippleCounter < rippleWidth) {
-      // RED
-      leds[center] = CRGB(MAX_BRIGHTNESS - cycleProgress, cycleProgress, 0);
-    } else if (rippleCounter < rippleWidth * 2) {
-      // GREEN
-      leds[center] = CRGB(0, MAX_BRIGHTNESS - cycleProgress, cycleProgress);
-    } else {
-      // BLUE
-      leds[center] = CRGB(cycleProgress, 0, MAX_BRIGHTNESS - cycleProgress);
-    }
+    leds[center] = blendColor(curColor, nextColor, rippleCounter, rippleWidth);
   }
+
+  if (rippleCounter == rippleWidth - 1) {
+    this->stepColor();
+  }
+
+  rippleCounter = (rippleCounter + 1) % rippleWidth;
 }
