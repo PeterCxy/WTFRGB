@@ -4,13 +4,12 @@
 // TODO: Implement arbitrary color selection
 int rippleCounter;
 #define RIPPLE_CENTERS 2
-int rippleCenter[RIPPLE_CENTERS] = {NUM_LEDS / 4, NUM_LEDS / 4 * 3};
+int rippleCenter[RIPPLE_CENTERS] = {NUM_LEDS / 4, NUM_LEDS / 4 * 3}; // TODO: Make this configurable
 int rippleWidth;
 int rippleDecrement;
 
 void RippleEffect::reset() {
   rippleCounter = 0;
-  //rippleCenter = {NUM_LEDS / 4, NUM_LEDS / 4 * 3}; // TODO: Make this dynamic
   rippleWidth = NUM_LEDS / 3;
   rippleDecrement = MAX_BRIGHTNESS / rippleWidth;
 }
