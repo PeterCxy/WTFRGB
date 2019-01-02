@@ -135,7 +135,7 @@ void processCommand() {
         cycle = cmdBuf[6];
       } else if (strncmp("PALETTE ", cmdBuf, 8) == 0) {
         // PALETTE <r1> <g1> <b1> <r2> <g2> <b2> .... - set the palette. Maximum of 6 colors.
-        paletteColorNum = 255 // Mark that we haven't determined the number yet.
+        paletteColorNum = 255; // Mark that we haven't determined the number yet.
         for (unsigned int i = 0; i < NUM_PALETTE_COLORS_MAX; i++) {
           unsigned int startPos = 8 + i * 3;
           if (startPos >= len || startPos + 2 > len) {
