@@ -5,10 +5,10 @@
 
 class BreathingEffect : public Effect {
  private:
-  void _reset();
   void stepColor(unsigned int step);
  public:
   void reset();
+  void onParamUpdate();
   void onUpdate();
   void handleCommand(char *cmdBuf, int len);
   void writeToEEPROM();

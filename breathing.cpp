@@ -16,17 +16,19 @@ CRGB breathingColor;
 CRGB breathingIncrement;
 int sign;
 int breathingCounter;
+unsigned char paletteIndex;
 
 void BreathingEffect::reset() {
   sign = -1;
   breathingCounter = 0;
-  startColor = CRGB(MAX_BRIGHTNESS, MAX_BRIGHTNESS, MAX_BRIGHTNESS);
-  this->_reset();
+  paletteIndex = 0;
+  this->onParamUpdate();
 }
 
 // Called when parameter is changed via command line or doing a full reset
 // DO NOT reset the full animation status here (e.g. the counter)
-void BreathingEffect::_reset() {
+void BreathingEffect::onParamUpdate() {
+  startColor = *getPaletteColor(paletteIndex);
   breathingIncrement = CRGB(startColor.r / HALF_BREATHING_CYCLE,
                             startColor.g / HALF_BREATHING_CYCLE,
                             startColor.b / HALF_BREATHING_CYCLE);
@@ -41,25 +43,20 @@ void BreathingEffect::_reset() {
 }
 
 void BreathingEffect::handleCommand(char *cmdBuf, int len) {
-  if (len >= 9 && strncmp("COLOR ", cmdBuf, 6) == 0) {
-    // COLOR <r> <g> <b> - Change breathing color
-    startColor = CRGB(cmdBuf[6], cmdBuf[7], cmdBuf[8]);
-    this->_reset();
+  if (strncmp("COLOR ", cmdBuf, 6) == 0) {
+    // COLOR <index_in_palette> - Change breathing color
+    paletteIndex = cmdBuf[6];
+    this->onParamUpdate();
   }
 }
 
 void BreathingEffect::writeToEEPROM() {
-  EEPROM.update(EEPROM_BREATHING_COLOR_3BYTE, startColor.r);
-  EEPROM.update(EEPROM_BREATHING_COLOR_3BYTE + 1, startColor.g);
-  EEPROM.update(EEPROM_BREATHING_COLOR_3BYTE + 2, startColor.b);
+  EEPROM.update(EEPROM_BREATHING_COLOR, paletteIndex);
 }
 
 void BreathingEffect::loadFromEEPROM() {
-  startColor = CRGB(
-    EEPROM.read(EEPROM_BREATHING_COLOR_3BYTE),
-    EEPROM.read(EEPROM_BREATHING_COLOR_3BYTE + 1),
-    EEPROM.read(EEPROM_BREATHING_COLOR_3BYTE + 2));
-  this->_reset();
+  paletteIndex = EEPROM.read(EEPROM_BREATHING_COLOR);
+  this->onParamUpdate();
 }
 
 void BreathingEffect::onUpdate() {
