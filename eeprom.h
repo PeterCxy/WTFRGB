@@ -2,7 +2,7 @@
 #define EEPROM_H
 #include <EEPROM.h>
 // Current version of the EEPROM - increase when introducing breaking changes
-#define EEPROM_VERSION 8
+#define EEPROM_VERSION 9
 
 // EEPROM allocation for main
 #define EEPROM_BASE 0
@@ -15,5 +15,6 @@
 
 // EEPROM Allocation for BreathingEffect
 #define EEPROM_BREATHING_COLOR (EEPROM_BASE + 23)
+#define EEPROM_BREATHING_FULLPALETTE (EEPROM_BASE + 24)
 
 #endif

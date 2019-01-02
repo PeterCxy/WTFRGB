@@ -84,16 +84,16 @@ void writeAllToEEPROM() {
   }
 }
 
-CRGB *getPaletteColor(unsigned int index) {
+CRGB *getPaletteColor(unsigned char index) {
   return &palette[index % paletteColorNum];
 }
 
-CRGB *nextPaletteColor(unsigned int *counter) {
-  CRGB *ret = getPaletteColor(*counter);
+CRGB *nextPaletteColor(unsigned char *counter) {
   (*counter)++;
   if (*counter >= paletteColorNum) {
-    *counter -= paletteColorNum;
+    *counter = (*counter) % paletteColorNum;
   }
+  return getPaletteColor(*counter);
 }
 
 void loop() {

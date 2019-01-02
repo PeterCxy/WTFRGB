@@ -9,7 +9,7 @@
 
 extern CRGB leds[NUM_LEDS];
 
-CRGB *getPaletteColor(unsigned int index);
-CRGB *nextPaletteColor(unsigned int *counter);
+CRGB *getPaletteColor(unsigned char index);
+CRGB *nextPaletteColor(unsigned char *counter);
 
 #endif
