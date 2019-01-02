@@ -2,12 +2,6 @@
 #include "color.h"
 
 // ==== The Ripple Effect ====
-// TODO: Implement arbitrary color selection
-int rippleCounter;
-#define RIPPLE_CENTERS 2
-int rippleCenter[RIPPLE_CENTERS] = {NUM_LEDS / 4, NUM_LEDS / 4 * 3}; // TODO: Make this configurable
-int rippleWidth;
-int rippleDecrement;
 
 void RippleEffect::reset() {
   paletteCounter = 0;

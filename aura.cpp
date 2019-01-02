@@ -2,8 +2,6 @@
 #include "color.h"
 
 // ==== The Aura Rainbow Effect ====
-int auraCounter = 0;
-int auraWidth;
 
 void AuraEffect::reset() {
   auraCounter = 0;

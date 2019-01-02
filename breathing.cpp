@@ -11,13 +11,6 @@
   } else if (x > 255) {  \
     x = 255;             \
   }
-CRGB startColor;
-CRGB breathingColor;
-CRGB breathingIncrement;
-int sign;
-int breathingCounter;
-unsigned char paletteIndex;
-bool fullPalette;
 
 void BreathingEffect::reset() {
   sign = -1;

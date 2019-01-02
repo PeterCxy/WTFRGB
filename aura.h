@@ -4,6 +4,8 @@
 #include "effect.h"
 
 class AuraEffect : public Effect {
+ int auraCounter = 0;
+ int auraWidth;
  unsigned char paletteCounter;
  CRGB curColor, nextColor;
  private:

@@ -4,6 +4,13 @@
 #include "effect.h"
 
 class BreathingEffect : public Effect {
+ CRGB startColor;
+ CRGB breathingColor;
+ CRGB breathingIncrement;
+ int sign;
+ int breathingCounter;
+ unsigned char paletteIndex;
+ bool fullPalette;
  private:
   void stepColor(unsigned int step);
   void updateIncrement();
