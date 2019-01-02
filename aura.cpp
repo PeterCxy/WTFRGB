@@ -10,7 +10,7 @@ CRGB curColor, nextColor;
 void AuraEffect::reset() {
   auraCounter = 0;
   paletteCounter = 0;
-  auraWidth = NUM_LEDS / 3;
+  auraWidth = NUM_LEDS;
 }
 
 void AuraEffect::stepColor() {
